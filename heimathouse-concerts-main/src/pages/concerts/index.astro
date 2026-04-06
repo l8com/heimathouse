@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ConcertCard from '../../components/ConcertCard.astro';
+import { getPastConcerts, getUpcomingConcerts } from '../../data/concerts';
+
+const upcomingConcerts = getUpcomingConcerts();
+const pastConcerts = getPastConcerts();
+---
+
+<BaseLayout
+	title="Konzerte · Heimathouse Concerts"
+	description="Alle kommenden und vergangenen Heimathouse-Concerts auf einen Blick."
+>
+	<section class="page-intro">
+		<p class="eyebrow">Konzerte</p>
+		<h1>Übersicht aller Shows</h1>
+		<p>Hier sind die kommenden und vergangenen Konzerte sauber nach Datum sortiert.</p>
+	</section>
+
+	<section class="section">
+		<div class="section__heading">
+			<h2>Kommende Konzerte</h2>
+			<span>{upcomingConcerts.length} Termine</span>
+		</div>
+
+		{upcomingConcerts.length > 0 ? (
+			<div class="card-grid">
+				{upcomingConcerts.map((concert) => <ConcertCard concert={concert} />)}
+			</div>
+		) : (
+			<p>Es sind derzeit keine kommenden Konzerte geplant.</p>
+		)}
+	</section>
+
+	<section class="section">
+		<div class="section__heading">
+			<h2>Vergangene Konzerte</h2>
+			<span>{pastConcerts.length} Termine</span>
+		</div>
+
+		{pastConcerts.length > 0 ? (
+			<div class="card-grid">
+				{pastConcerts.map((concert) => <ConcertCard concert={concert} />)}
+			</div>
+		) : (
+			<p>Es gibt noch keine vergangenen Konzerte im Archiv.</p>
+		)}
+	</section>
+</BaseLayout>
+
+<style>
+	.page-intro {
+		max-width: 720px;
+		margin-bottom: 2rem;
+	}
+
+	.eyebrow {
+		margin: 0 0 0.5rem;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		font-size: 0.8rem;
+	}
+
+	h1 {
+		margin: 0;
+		font-size: clamp(2rem, 4vw, 3.2rem);
+		line-height: 1.1;
+	}
+
+	.page-intro p:last-child {
+		margin-bottom: 0;
+	}
+
+	.section {
+		margin-top: 2rem;
+	}
+
+	.section__heading {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		align-items: baseline;
+		margin-bottom: 1rem;
+	}
+
+	.section__heading h2 {
+		margin: 0;
+	}
+
+	.section__heading span {
+		font-size: 0.95rem;
+	}
+
+	.card-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: 1rem;
+	}
+</style>

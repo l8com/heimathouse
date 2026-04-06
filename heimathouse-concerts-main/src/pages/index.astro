@@ -1,0 +1,282 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ConcertCard from '../components/ConcertCard.astro';
+import { getNextUpcomingConcert, getPastConcerts, getUpcomingConcerts } from '../data/concerts';
+import heroImage from '../assets/images/hero.jpg';
+
+const nextConcert = getNextUpcomingConcert();
+const moreUpcomingConcerts = getUpcomingConcerts().slice(1, 4);
+const pastConcerts = getPastConcerts().slice(0, 3);
+---
+
+<BaseLayout
+	title="Heimathouse Concerts"
+	description="Heimathouse Concerts: intime Live-Abende mit warmem Poster-Charakter und klaren Konzertinfos."
+>
+	<section
+		class="hero"
+		aria-label="Heimathouse Concerts Hero"
+		style={`background-image: url(${heroImage.src});`}
+	>
+		<div class="hero__inner">
+			<div class="hero__content">
+				<p class="hero__eyebrow">Live-Konzerte im Heimathaus</p>
+				<div class="hero__actions">
+					{nextConcert ? (
+						<a class="hero__button" href={`/concerts/${nextConcert.slug}`}>Nächstes Konzert ansehen</a>
+					) : (
+						<a class="hero__button" href="/concerts">Nächstes Konzert ansehen</a>
+					)}
+					<a class="hero__button hero__button--ghost" href="/heimathouse-concert-infos">
+						Mehr über Heimathouse Concerts
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{nextConcert ? (
+		<section class="section section--featured">
+			<div class="section__heading">
+				<h2 class="section-title">Nächstes Konzert</h2>
+				<a href={`/concerts/${nextConcert.slug}`}>Details</a>
+			</div>
+			<ConcertCard concert={nextConcert} featured />
+		</section>
+	) : (
+		<section class="section">
+			<div class="section__heading">
+				<h2 class="section-title">Nächstes Konzert</h2>
+			</div>
+			<p>Aktuell sind keine kommenden Konzerte eingetragen.</p>
+		</section>
+	)}
+
+	{moreUpcomingConcerts.length > 0 && (
+		<section class="section">
+			<div class="section__heading">
+				<h2 class="section-title">Weitere kommende Konzerte</h2>
+			</div>
+			<div class="card-grid">
+				{moreUpcomingConcerts.map((concert) => <ConcertCard concert={concert} />)}
+			</div>
+		</section>
+	)}
+
+	{pastConcerts.length > 0 && (
+		<section class="section section--past">
+			<div class="section__heading">
+				<h2 class="section-title">Vergangene Konzerte</h2>
+				<a href="/concerts">Gesamte Liste</a>
+			</div>
+			<div class="card-grid">
+				{pastConcerts.map((concert) => <ConcertCard concert={concert} />)}
+			</div>
+		</section>
+	)}
+</BaseLayout>
+
+<style>
+	.hero {
+		position: relative;
+		margin-inline: calc(50% - 50vw);
+		width: 100vw;
+		min-height: min(75vh, 860px);
+		overflow: hidden;
+		padding: clamp(1.25rem, 3vw, 2.25rem);
+		margin-top: calc(-1.5rem - 1px);
+		margin-bottom: 2.75rem;
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
+		isolation: isolate;
+	}
+
+	.hero::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background:
+			linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.58) 100%),
+			radial-gradient(circle at 50% 40%, rgba(184, 92, 56, 0.08), transparent 45%);
+		opacity: 0;
+		animation: heroOverlayIn 900ms ease-out 550ms forwards;
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	.hero__content {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 1.1rem;
+		text-align: center;
+		padding: 2rem 1rem;
+		min-height: inherit;
+		opacity: 0;
+		transform: translateY(10px);
+		animation: heroContentIn 700ms ease-out 700ms forwards;
+	}
+
+	.hero__inner {
+		max-width: 1100px;
+		margin: 0 auto;
+		min-height: inherit;
+		display: grid;
+		place-items: center;
+	}
+
+	.hero__eyebrow {
+		margin: 0;
+		font-size: clamp(1.08rem, 2.5vw, 1.45rem);
+		font-weight: 800;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: #fff;
+		text-shadow: 0 3px 18px rgba(0, 0, 0, 0.75);
+		background: rgba(0, 0, 0, 0.28);
+		padding: 0.4rem 0.8rem;
+		border-radius: 999px;
+	}
+
+	.hero__actions {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		max-width: 560px;
+		margin-inline: auto;
+		margin-top: 0;
+		gap: 0.9rem;
+	}
+
+	.hero__button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: min(100%, 420px);
+		padding: 0.9rem 1.2rem;
+		border-radius: 999px;
+		text-decoration: none;
+		font-weight: 700;
+		background: rgba(18, 18, 18, 0.55);
+		border: 1px solid rgba(245, 243, 239, 0.22);
+		color: var(--text);
+		backdrop-filter: blur(8px);
+		transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+		opacity: 0;
+		transform: translateY(10px);
+		animation: heroContentIn 700ms ease-out 880ms forwards;
+	}
+
+	.hero__button--ghost {
+		animation-delay: 1040ms;
+	}
+
+	.hero__button:hover {
+		transform: translateY(-1px);
+		border-color: rgba(184, 92, 56, 0.6);
+		background: rgba(18, 18, 18, 0.72);
+	}
+
+	@keyframes heroContentIn {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes heroOverlayIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	.section {
+		margin-top: 2.8rem;
+	}
+
+	.section--featured {
+		padding-top: 0.25rem;
+	}
+
+	.section--past {
+		opacity: 0.94;
+	}
+
+	.section__heading {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	.section__heading h2 {
+		margin: 0;
+	}
+
+	.section__heading a {
+		color: var(--text-muted);
+		text-decoration: none;
+	}
+
+	.section__heading a:hover {
+		color: var(--accent-rust);
+	}
+
+	.card-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: 1rem;
+	}
+
+	@media (max-width: 860px) {
+		.hero {
+			min-height: min(70vh, 720px);
+		}
+	}
+
+	@media (max-width: 560px) {
+		.hero {
+			min-height: 64vh;
+			margin-top: calc(-1.15rem - 1px);
+			margin-bottom: 2.25rem;
+		}
+
+		.hero__actions {
+			width: 100%;
+		}
+
+		.hero__button {
+			width: min(100%, 320px);
+		}
+
+		.section__heading {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hero::after,
+		.hero__content,
+		.hero__button,
+		.hero__button--ghost {
+			animation: none;
+			opacity: 1;
+			transform: none;
+		}
+	}
+</style>

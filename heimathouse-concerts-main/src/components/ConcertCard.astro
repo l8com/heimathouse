@@ -1,0 +1,150 @@
+---
+import type { Concert } from '../data/concerts';
+
+interface Props {
+	concert: Concert;
+	featured?: boolean;
+}
+
+const { concert, featured = false } = Astro.props as Props;
+
+const dateLabel = new Intl.DateTimeFormat('de-DE', {
+	dateStyle: 'medium',
+	timeStyle: 'short',
+}).format(new Date(concert.date));
+
+const isPast = new Date(concert.date).getTime() < Date.now();
+---
+
+<article class:list={['concert-card', { 'concert-card--featured': featured, 'concert-card--past': isPast }]}> 
+	<a class="concert-card__link" href={`/concerts/${concert.slug}`}>
+		<div class="concert-card__poster-wrap">
+			<img src={concert.posterImage} alt={`Poster für ${concert.title}`} class="concert-card__image" loading="lazy" />
+		</div>
+
+		<div class="concert-card__body">
+			<div class="concert-card__meta">
+				<span>{dateLabel}</span>
+				<span class:list={['concert-card__badge', { 'is-past': isPast }]}>{isPast ? 'Vergangen' : 'Kommend'}</span>
+			</div>
+
+			<h3>{concert.title}</h3>
+			<p class="concert-card__band">{concert.bandName}</p>
+			<p>{concert.description}</p>
+		</div>
+	</a>
+</article>
+
+<style>
+	.concert-card {
+		border: 1px solid var(--border);
+		border-radius: 1.25rem;
+		overflow: hidden;
+		background: linear-gradient(180deg, rgba(30, 30, 30, 0.95), rgba(25, 25, 25, 0.98));
+		transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+	}
+
+	.concert-card--featured {
+		border-color: var(--border-strong);
+		background: linear-gradient(180deg, rgba(34, 29, 27, 1), rgba(23, 23, 23, 0.98));
+	}
+
+	.concert-card__link {
+		display: grid;
+		grid-template-rows: auto 1fr;
+		text-decoration: none;
+		color: inherit;
+		height: 100%;
+	}
+
+	.concert-card:hover {
+		transform: translateY(-2px);
+		border-color: rgba(184, 92, 56, 0.35);
+	}
+
+	.concert-card__poster-wrap {
+		padding: 1rem 1rem 0;
+	}
+
+	.concert-card__image {
+		width: 100%;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		border-radius: 1rem;
+		background: #282828;
+	}
+
+	.concert-card__body {
+		padding: 1rem 1rem 1.1rem;
+		display: grid;
+		gap: 0.75rem;
+	}
+
+	.concert-card__meta {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		align-items: center;
+		font-size: 0.86rem;
+		color: var(--text-muted);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+
+	.concert-card__badge {
+		padding: 0.25rem 0.55rem;
+		border-radius: 999px;
+		background: rgba(106, 138, 130, 0.15);
+		color: var(--accent-green);
+		font-size: 0.78rem;
+		font-weight: 600;
+	}
+
+	.concert-card__badge.is-past {
+		background: rgba(245, 243, 239, 0.08);
+		color: var(--text-muted);
+	}
+
+	.concert-card__body h3 {
+		margin: 0;
+		font-size: 1.35rem;
+		line-height: 0.98;
+	}
+
+	.concert-card__band {
+		margin: 0;
+		font-weight: 700;
+		color: var(--text);
+	}
+
+	.concert-card__body p:nth-of-type(2) {
+		margin: 0;
+	}
+
+	.concert-card__body p:last-child {
+		margin: 0;
+		color: var(--text-muted);
+	}
+
+	.concert-card--past {
+		opacity: 0.88;
+	}
+
+	.concert-card--past .concert-card__image {
+		filter: saturate(0.92) brightness(0.9);
+	}
+
+	.concert-card--featured .concert-card__body h3 {
+		font-size: 1.7rem;
+	}
+
+	.concert-card--featured .concert-card__image {
+		aspect-ratio: 16 / 10;
+	}
+
+	@media (max-width: 720px) {
+		.concert-card__poster-wrap {
+			padding: 0.85rem 0.85rem 0;
+		}
+	}
+</style>

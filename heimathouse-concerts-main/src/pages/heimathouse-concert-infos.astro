@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+	title="Heimathouse Concert Infos"
+	description="Praktische Infos zu den Konzerten im Heimathouse."
+>
+	<section class="content-page">
+		<p class="eyebrow">Infos</p>
+		<h1>Heimathouse Concert Infos</h1>
+		<p>
+			Hier stehen die wichtigsten Hinweise für unsere Konzertabende: Einlass, Beginn, Ticketinfos und
+			alles, was Besucherinnen und Besucher vorab wissen sollten.
+		</p>
+
+		<ul>
+			<li>Einlass: in der Regel 30 Minuten vor Beginn</li>
+			<li>Beginn: siehe jeweilige Konzertseite</li>
+			<li>Getränke: an der Bar vor Ort</li>
+			<li>Tickets: abhängig vom jeweiligen Termin</li>
+		</ul>
+	</section>
+</BaseLayout>
+
+<style>
+	.content-page {
+		max-width: 720px;
+	}
+
+	.eyebrow {
+		margin: 0 0 0.5rem;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		font-size: 0.8rem;
+	}
+
+	h1 {
+		margin: 0 0 1rem;
+		font-size: clamp(2rem, 4vw, 3.2rem);
+		line-height: 1.1;
+	}
+
+	p,
+	ul {
+	}
+
+	ul {
+		padding-left: 1.2rem;
+	}
+</style>

@@ -1,0 +1,62 @@
+---
+const socialLinks = [
+	{ href: 'https://instagram.com/', label: 'Instagram' },
+	{ href: 'https://facebook.com/', label: 'Facebook' },
+	{ href: 'mailto:newsletter@heimathouse-concerts.de', label: 'Newsletter' },
+];
+---
+
+<footer class="site-footer">
+	<div class="site-footer__inner">
+		<p class="site-footer__note">Heimathouse Concerts · kleine Konzerte im alten Haus.</p>
+
+		<nav aria-label="Social Links" class="site-footer__links">
+			{socialLinks.map((link) => (
+				<a href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noreferrer' : undefined}>
+					{link.label}
+				</a>
+			))}
+		</nav>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		border-top: 1px solid var(--border);
+		margin-top: 3rem;
+		background: rgba(30, 30, 30, 0.72);
+	}
+
+	.site-footer__inner {
+		max-width: 1100px;
+		margin: 0 auto;
+		padding: 1.2rem 1.25rem 1.6rem;
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		color: var(--text-muted);
+		font-size: 0.92rem;
+	}
+
+	.site-footer__note {
+		margin: 0;
+	}
+
+	.site-footer__links {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.site-footer__links a {
+		color: var(--text-muted);
+		text-decoration: none;
+		transition: color 160ms ease;
+	}
+
+	.site-footer__links a:hover {
+		color: var(--accent-green);
+	}
+</style>

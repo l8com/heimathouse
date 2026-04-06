@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Datenschutz · Heimathouse Concerts" description="Datenschutzhinweise von Heimathouse Concerts.">
+	<section class="content-page">
+		<p class="eyebrow">Datenschutz</p>
+		<h1>Datenschutz</h1>
+		<p>
+			Diese Seite ist als schlanke Infoseite angelegt. Es werden nur die technisch notwendigen Daten
+			verarbeitet, die für den Betrieb der Website erforderlich sind.
+		</p>
+		<p>
+			Wenn du Social Links verwendest, verlässt du diese Website und es gelten die Datenschutzrichtlinien
+			der jeweiligen Plattform.
+		</p>
+	</section>
+</BaseLayout>
+
+<style>
+	.content-page {
+		max-width: 720px;
+	}
+
+	.eyebrow {
+		margin: 0 0 0.5rem;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		font-size: 0.8rem;
+	}
+
+	h1 {
+		margin: 0 0 1rem;
+		font-size: clamp(2rem, 4vw, 3.2rem);
+		line-height: 1.1;
+	}
+
+</style>

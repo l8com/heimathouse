@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Impressum · Heimathouse Concerts" description="Impressum von Heimathouse Concerts.">
+	<section class="content-page">
+		<p class="eyebrow">Impressum</p>
+		<h1>Impressum</h1>
+		<p><strong>Heimathouse Concerts</strong><br />Musterstraße 1<br />12345 Musterstadt</p>
+		<p>
+			E-Mail: <a href="mailto:info@heimathouse-concerts.de">info@heimathouse-concerts.de</a><br />
+			Verantwortlich für den Inhalt: Heimathouse Concerts
+		</p>
+	</section>
+</BaseLayout>
+
+<style>
+	.content-page {
+		max-width: 720px;
+	}
+
+	.eyebrow {
+		margin: 0 0 0.5rem;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		font-size: 0.8rem;
+	}
+
+	h1 {
+		margin: 0 0 1rem;
+		font-size: clamp(2rem, 4vw, 3.2rem);
+		line-height: 1.1;
+	}
+
+</style>
