@@ -1,6 +1,6 @@
 import concert16012026 from '../assets/images/concert16012026.jpg';
 import concert20032026 from '../assets/images/concert20032026.jpg';
-import concert17042026 from '../assets/images/conert17042026.jpg';
+import concert17042026 from '../assets/images/concert17042026.jpg';
 import band2_1 from '../assets/images/band2_1.jpg';
 import band2_2 from '../assets/images/band2_2.jpg';
 
